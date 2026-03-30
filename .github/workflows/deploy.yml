@@ -1,0 +1,55 @@
+name: Deploy to GitHub Pages
+
+# Запускаем сборку при каждом пуше в ветку main (или master)
+on:
+  push:
+    branches: ["main"] 
+  workflow_dispatch: # Позволяет запускать сборку вручную из интерфейса GitHub
+
+# Настройки прав доступа для токена GitHub
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Отменяем предыдущие сборки, если вы сделали новый пуш до завершения старого
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20 # Укажите вашу версию Node.js (например, 18 или 20)
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # ВАЖНО: Укажите здесь папку, в которую собирается ваш проект!
+          # Для Vite/Vue это обычно './dist', для React (CRA) — './build'
+          path: './dist' 
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
