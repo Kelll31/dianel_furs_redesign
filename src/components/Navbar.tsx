@@ -145,13 +145,13 @@ export default function Navbar() {
           </div>
         </div>
 
-        <div className="flex justify-center text-white">
-          <Link to="/">
+        <div className="flex justify-center text-white relative z-[-1] pointer-events-none">
+          <Link to="/" className="pointer-events-auto">
             <h1 className="text-xl md:text-3xl font-serif tracking-[0.2em] md:tracking-[0.3em] uppercase whitespace-nowrap">Dianel</h1>
           </Link>
         </div>
 
-        <div className="flex items-center gap-3 md:gap-6 justify-end">
+        <div className="flex items-center gap-3 md:gap-6 justify-end relative z-[101]">
           {/* Search Bar Animation */}
           <div className="relative flex items-center">
             <AnimatePresence>
