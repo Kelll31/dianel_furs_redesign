@@ -7,7 +7,7 @@ export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [react(), tailwindcss()],
-    base: '/dianel_furs_redesign/',
+    base: '/Dianel_Furs_Redesign/',
     build: {
       outDir: 'dist',
       emptyOutDir: true,
